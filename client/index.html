@@ -3,18 +3,46 @@
   <head>
     <meta charset="utf-8">
     <title>chatterbox</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="styles/styles.css">
 
     <!-- dependencies -->
     <script src="bower_components/jquery/jquery.min.js"></script>
     <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- your scripts -->
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
   </head>
   <body>
+    <header>
+    </header>
     <div id="main">
       <h1>chatterbox</h1>
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Chat Rooms
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+          <li role="presentation" class="divider"></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Add Room</a></li>
+        </ul>
+      </div>
+      <div class="form-group">
+        <label for="usr">Username:</label>
+        <input type="text" class="form-control" id="usr">
+      </div>
+      <div class="form-group">
+        <label for="usr">Message:</label>
+        <input type="text" class="form-control" id="message">
+        <button id="getMessages" class = "btn-primary">
+          Get New Messages
+        </button>
+      </div>
+      <div>
+        <button id="sendMessage" class = "btn-success">
+          Send Message
+        </button>
+      </div>
       <div class= "test">
       </div>
     </div>
