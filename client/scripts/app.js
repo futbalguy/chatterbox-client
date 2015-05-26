@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
   var userName = "Aaron Rodgers peace and love";
-  var currentRoomName = "";
+  var currentRoomName = "To All Rooms";
   var roomNames = [];
   var allMessages = [];
 
@@ -64,10 +64,10 @@ $(document).ready(function(){
         addRoomName(roomNameText)
       }
       //checks to see what chat room has been selected and shows messages accordingly
-      if (currentRoomName === "" || roomNameText === currentRoomName){
+      if (currentRoomName === "To All Rooms" || roomNameText === currentRoomName){
         var escName = _.escape(currentObject.username);
         var escText = _.escape(currentObject.text);
-        $('.messageBody').append('<div></div>').append('Username: ' + escName + '\nmessage: ' + escText);
+        $('.messageBody').append('<div></div>').append('<div>Username: ' + escName + '\nmessage: ' + escText + '</div>').focus();
       }
     }
   };
@@ -78,7 +78,7 @@ $(document).ready(function(){
 
   $('#sendMessage').on('click',function() {
     postMessage(userName, $('#message').val(),currentRoomName);
-    $('#message').val('')
+    $('#message').val('');
   });
 
   $('#usr').on('keyup',function() {
@@ -88,6 +88,17 @@ $(document).ready(function(){
   $('.dropdown').on('click', "a", function(){
     currentRoomName = $(this).text();
     $('#menu1').html(currentRoomName + ' <span class="caret"></span>');
+    refreshMessageBody();
+  });
+
+  $('#newroom').on('click', function(e){
+    var response = prompt("What chat room would you like to create?");
+    currentRoomName = response;
+    if(roomNames.indexOf(response) === -1) {
+      addRoomName(response);
+      roomNames.push(response);
+    }
+    // $('#menu1').html(currentRoomName + ' <span class="caret"></span>');
     refreshMessageBody();
   });
 
