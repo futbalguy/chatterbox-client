@@ -1,9 +1,9 @@
 $(document).ready(function(){
 
   var userName = "Aaron Rodgers peace and love";
-  var roomName = "notre dame football";
-
+  var currentRoomName = "";
   var roomNames = [];
+  var allMessages = [];
 
   var postMessage = function(username,text,roomName) {
     var message = {
@@ -29,32 +29,17 @@ $(document).ready(function(){
         console.error('chatterbox: Failed to send message');
       }
     });
-
   };
+
 
   var getMessages = function () {
     $.ajax({
       url: 'https://api.parse.com/1/classes/chatterbox',
       type: 'GET',
-      //data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
-        var results = data.results;
-        for (var i = 0; i < results.length; i++){
-          var currentObject = results[i];
-          var roomNameText = _.escape(currentObject.roomname);
-
-          if (roomNames.indexOf(roomNameText) === -1) {
-            roomNames.push(roomNameText);
-            addRoomName(roomNameText)
-          }
-
-          var escName = _.escape(currentObject.username);
-          var escText = _.escape(currentObject.text);
-          $('.test').append('<div></div>').append('Username: ' + escName + '\nmessage: ' + escText);
-        }
-
-
+        allMessages = data.results;
+        refreshMessageBody();
         console.log(data);
         console.log('chatterbox: Message received');
       },
@@ -68,12 +53,31 @@ $(document).ready(function(){
     $('.dropdown-menu').prepend('<li id=' + roomName + ' role="presentation"><a role="menuitem" tabindex="-1" href="#">' + roomName + '</a></li>');
   };
 
+  var refreshMessageBody = function () {
+    $('.messageBody').html('');
+    for (var i = 0; i < allMessages.length; i++){
+      var currentObject = allMessages[i];
+      var roomNameText = _.escape(currentObject.roomname);
+      //establish list of all current chat rooms
+      if (roomNames.indexOf(roomNameText) === -1) {
+        roomNames.push(roomNameText);
+        addRoomName(roomNameText)
+      }
+      //checks to see what chat room has been selected and shows messages accordingly
+      if (currentRoomName === "" || roomNameText === currentRoomName){
+        var escName = _.escape(currentObject.username);
+        var escText = _.escape(currentObject.text);
+        $('.messageBody').append('<div></div>').append('Username: ' + escName + '\nmessage: ' + escText);
+      }
+    }
+  };
+
   $('#getMessages').on('click',function() {
     getMessages();
   });
 
   $('#sendMessage').on('click',function() {
-    postMessage(userName, $('#message').val(),roomName);
+    postMessage(userName, $('#message').val(),currentRoomName);
     $('#message').val('')
   });
 
@@ -81,8 +85,10 @@ $(document).ready(function(){
     userName = $(this).val();
   });
 
-  $('.dropdown-menu li').on('click', function(){
-
+  $('.dropdown').on('click', "a", function(){
+    currentRoomName = $(this).text();
+    $('#menu1').html(currentRoomName + ' <span class="caret"></span>');
+    refreshMessageBody();
   });
 
   getMessages();
