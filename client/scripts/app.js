@@ -91,14 +91,14 @@ $(document).ready(function(){
     refreshMessageBody();
   });
 
-  $('#newroom').on('click', function(e){
+  $('.dropdown').on('click','#newroom', function(){
     var response = prompt("What chat room would you like to create?");
     currentRoomName = response;
     if(roomNames.indexOf(response) === -1) {
       addRoomName(response);
       roomNames.push(response);
     }
-    // $('#menu1').html(currentRoomName + ' <span class="caret"></span>');
+    $('#menu1').html(response + ' <span class="caret"></span>');
     refreshMessageBody();
   });
 
