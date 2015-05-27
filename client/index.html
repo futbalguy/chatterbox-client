@@ -32,20 +32,31 @@
         <label for="usr">Username:</label>
         <input type="text" class="form-control" id="usr">
       </div>
-      <div class="form-group">
+      <div class="form-group" id = "sendFormGroup">
         <label for="usr">Message:</label>
         <input type="text" class="form-control" id="message">
-        <button id="getMessages" class = "btn-primary">
-          Get New Messages
+        <button id="sendMessage" class = "btn-primary">
+          Send Message
         </button>
       </div>
       <div>
-        <button id="sendMessage" class = "btn-success">
-          Send Message
+        <button id="getMessages" class = "btn-success">
+          Get Messages
         </button>
       </div>
       <div class= "messageBody">
       </div>
     </div>
+    <script>
+
+     //code below is relevant to appold.js (backbone implementation)
+     // $(function() {
+     //   var messages = new Messages();
+     //   messages.loadMsgs();
+     //   var formView = new FormView({el: $('#sendFormView'), collection:messages});
+
+
+     // });
+    </script>
   </body>
 </html>
